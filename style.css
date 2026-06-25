@@ -1,0 +1,68 @@
+        body {   
+            height: 100vh;
+            text-align: center;
+            align-items: center;
+            flex-direction: column;
+            display: flex;
+            background-image: url(/Images/cherryblossom);
+            background-color: transparent;            
+            background-repeat: no-repeat;
+            background-size: cover;
+        }
+
+        .headerpic {
+            transform: rotate(90deg);
+            background-image: url(/Images/cherryblossom);
+            background-repeat: no-repeat;
+        }
+
+        h1 {
+            font-size: 4.7rem;
+        }
+
+        textarea { 
+            scroll-behavior: auto;
+        }
+
+
+        label {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .option {   
+            background-color: rgb(255, 255, 255);
+            font-size: large;
+        }
+
+        #button input {
+            background-color: black;
+            color:white;
+            border:2px solid white;
+            font-size: large;
+        }
+
+        .main {
+        display flex;
+        justify-content: center;
+        }
+
+        .lining {
+            background-image:lineargradient(to bottom, white, rgb(176, 176, 240));
+            width: 80%;
+            border: 2px solid rgb(186, 186, 253);
+            display: flex;
+            justify-content: center;
+            background-color: aliceblue;
+        }
+
+        .faq {
+            /* display: flex;
+           justify-content: center; */
+           margin-left: 10%;
+           margin-right: 10%;
+        }
+
+        h4 {
+            justify-content: center;
+        }
