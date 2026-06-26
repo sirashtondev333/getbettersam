@@ -66,3 +66,310 @@
         h4 {
             justify-content: center;
         }
+          * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 48px 20px;
+  }
+
+  .comments {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .comments__heading {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 4px;
+  }
+
+  .comments__count {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    margin: 0 0 28px;
+  }
+
+    :root {
+    --ink:        #2B2B26;
+    --paper:      #F7F6F2;
+    --moss:       #4F6F52;
+    --moss-dark:  #3C5740;
+    --rule:       #DEDACE;
+    --highlight:  #ECE7DA;
+    --muted:      #8A8678;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Inter', system-ui, sans-serif;
+    padding: 48px 20px;
+  }
+
+  .comments {
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  .comments__heading {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 1.6rem;
+    margin: 0 0 4px;
+  }
+
+  .comments__count {
+    color: var(--muted);
+    font-size: 0.85rem;
+    letter-spacing: 0.03em;
+    margin: 0 0 28px;
+  }
+
+  /* the "margin rule" — a thin spine the whole thread hangs off, like
+     annotations in the margin of a book */
+  .comment-list {
+    list-style: none;
+    margin: 0 0 32px;
+    padding: 0;
+    border-left: 1px solid var(--rule);
+  }
+
+  .comment {
+    padding: 18px 0 18px 20px;
+    margin-left: -1px;
+    border-left: 2px solid transparent;
+    animation: fade-in 0.35s ease;
+  }
+
+  .comment + .comment {
+    border-top: 1px solid var(--rule);
+  }
+
+  .comment--new {
+    border-left-color: var(--moss);
+  }
+
+  @keyframes fade-in {
+    from { opacity: 0; transform: translateY(4px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .comment__row {
+    display: flex;
+    gap: 12px;
+  }
+
+  .comment__avatar {
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: var(--moss);
+    color: var(--paper);
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .comment__body { flex: 1; min-width: 0; }
+
+  .comment__meta {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .comment__name {
+    font-weight: 600;
+    font-size: 0.95rem;
+  }
+
+  .comment__time {
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+  }
+
+  .comment__text {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    margin: 0 0 8px;
+    word-wrap: break-word;
+  }
+
+  .comment__reply-btn {
+    background: none;
+    border: none;
+    padding: 0;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    color: var(--muted);
+    cursor: pointer;
+  }
+
+  .comment__reply-btn:hover,
+  .comment__reply-btn:focus-visible {
+    color: var(--moss-dark);
+  }
+
+  /* nested replies: the spine continues at a smaller offset */
+  .replies {
+    list-style: none;
+    margin: 12px 0 0;
+    padding: 0 0 0 16px;
+    border-left: 1px solid var(--rule);
+  }
+
+  .replies .comment { padding-top: 14px; padding-bottom: 14px; }
+  .replies .comment + .comment { border-top: 1px solid var(--rule); }
+  .replies .comment__avatar { width: 28px; height: 28px; font-size: 0.8rem; }
+
+  .reply-form {
+    display: none;
+    margin: 10px 0 0 46px;
+    gap: 8px;
+  }
+
+  .reply-form.is-open { display: flex; }
+
+  .reply-form input {
+    flex: 1;
+    font-family: inherit;
+    font-size: 0.85rem;
+    padding: 7px 10px;
+    border: 1px solid var(--rule);
+    border-radius: 6px;
+    background: #fff;
+    color: var(--ink);
+  }
+
+  .reply-form input:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 1px;
+  }
+
+  .reply-form button {
+    font-family: inherit;
+    font-size: 0.82rem;
+    font-weight: 600;
+    background: var(--highlight);
+    color: var(--moss-dark);
+    border: none;
+    border-radius: 6px;
+    padding: 0 14px;
+    cursor: pointer;
+  }
+
+  .reply-form button:hover { background: #E2DCC8; }
+
+  /* ---- new comment form ---- */
+  .comment-form {
+    border-top: 1px solid var(--rule);
+    padding-top: 24px;
+  }
+
+  .comment-form__label {
+    display: block;
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted);
+    margin-bottom: 6px;
+  }
+
+  .comment-form__row {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 10px;
+  }
+
+  .comment-form input,
+  .comment-form textarea {
+    width: 100%;
+    font-family: inherit;
+    font-size: 0.95rem;
+    padding: 10px 12px;
+    border: 1px solid var(--rule);
+    border-radius: 8px;
+    background: #fff;
+    color: var(--ink);
+    resize: vertical;
+  }
+
+  .comment-form textarea { min-height: 84px; }
+
+  .comment-form input:focus-visible,
+  .comment-form textarea:focus-visible {
+    outline: 2px solid var(--moss);
+    outline-offset: 1px;
+  }
+
+  .comment-form__footer {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 12px;
+  }
+
+  /* signature touch: a pencil-underline that draws in on hover/focus */
+  .comment-form__submit {
+    position: relative;
+    font-family: inherit;
+    font-size: 0.92rem;
+    font-weight: 600;
+    background: var(--moss);
+    color: var(--paper);
+    border: none;
+    border-radius: 8px;
+    padding: 10px 22px;
+    cursor: pointer;
+    overflow: hidden;
+  }
+
+  .comment-form__submit::after {
+    content: "";
+    position: absolute;
+    left: 22px;
+    right: 22px;
+    bottom: 7px;
+    height: 2px;
+    background: var(--highlight);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s ease;
+  }
+
+  .comment-form__submit:hover::after,
+  .comment-form__submit:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .comment-form__submit:hover { background: var(--moss-dark); }
+
+  .comment-form__error {
+    font-size: 0.8rem;
+    color: #A1473A;
+    margin: -4px 0 10px;
+    display: none;
+  }
+
+  .comment-form__error.is-visible { display: block; }
+
+  @media (max-width: 480px) {
+    .comment-form__row { flex-direction: column; }
+    .reply-form { margin-left: 0; }
+  }
