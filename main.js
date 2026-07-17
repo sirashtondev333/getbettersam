@@ -138,4 +138,4 @@
     textInput.value = '';
   });
 
-  render();
+//   render();
