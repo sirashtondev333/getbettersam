@@ -10,11 +10,12 @@
             background-size: cover;
         }
 
-        .headerpic {
-            transform: rotate(90deg);
+        /* .headerpic {
             background-image: url(/Images/cherryblossom);
             background-repeat: no-repeat;
-        }
+            max-width: fit-content;
+            max-height: 25%;
+        } */
 
         h1 {
             font-size: 4.7rem;
@@ -66,7 +67,10 @@
         h4 {
             justify-content: center;
         }
-          * { box-sizing: border-box; }
+          
+        * { 
+          box-sizing: border-box; 
+        }
 
   body {
     margin: 0;
