@@ -1,141 +1,102 @@
- // ---- seed data: replace with comments loaded from your backend ----
-  let comments = [
-    {
-      id: 1,
-      name: "Maren O.",
-      time: "2 days ago",
-      text: "This finally clicked for me after reading your section on closures. Thank you!",
-      replies: []
-    },
-    {
-      id: 2,
-      name: "Devon K.",
-      time: "1 day ago",
-      text: "Small typo in the third paragraph — 'recieve' should be 'receive'.",
-      replies: [
-        { id: 21, name: "Author", time: "23 hours ago", text: "Fixed, thanks for the sharp eyes!" }
-      ]
-    }
-  ];
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-app.js";
+import {
+  getFirestore, collection, addDoc, onSnapshot,
+  query, orderBy, where, serverTimestamp
+} from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-  let nextId = 100;
+const firebaseConfig = {
+  apiKey: "AIzaSyCyZ1p7KqQFdHR5-rQ8Nips086gH-VQiok",
+  authDomain: "getbettersam-6eb58.firebaseapp.com",
+  projectId: "getbettersam-6eb58",
+  storageBucket: "getbettersam-6eb58.firebasestorage.app",
+  messagingSenderId: "307265841116",
+  appId: "1:307265841116:web:72795da7cfc4eaf0ed9119"
+};
 
-  const listEl = document.getElementById('commentList');
-  const countEl = document.getElementById('commentCount');
-  const formEl = document.getElementById('commentForm');
-  const nameInput = document.getElementById('nameInput');
-  const textInput = document.getElementById('textInput');
-  const errorEl = document.getElementById('formError');
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const wishesRef = collection(db, "wellWishes");
 
-  function initials(name) {
-    return name.trim().split(/\s+/).map(w => w[0]).slice(0, 2).join('').toUpperCase();
+const form = document.getElementById("wellWishForm");
+const nameInput = document.getElementById("wellWishName");
+const commentInput = document.getElementById("wellWishComment");
+const errorEl = document.getElementById("wellWishError");
+const listEl = document.getElementById("wellWishList");
+const countEl = document.getElementById("wellWishCount");
+
+// Submit a new well wish — saved as "pending" until you approve it
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  const name = nameInput.value.trim();
+  const comment = commentInput.value.trim();
+
+  if (!name || !comment) {
+    errorEl.style.display = "block";
+    return;
   }
+  errorEl.style.display = "none";
 
-  function totalCount() {
-    return comments.reduce((sum, c) => sum + 1 + c.replies.length, 0);
-  }
-
-  function renderComment(c, isNew) {
-    const repliesHtml = c.replies.map(r => `
-      <li class="comment">
-        <div class="comment__row">
-          <div class="comment__avatar">${initials(r.name)}</div>
-          <div class="comment__body">
-            <div class="comment__meta">
-              <span class="comment__name">${escapeHtml(r.name)}</span>
-              <span class="comment__time">${escapeHtml(r.time)}</span>
-            </div>
-            <p class="comment__text">${escapeHtml(r.text)}</p>
-          </div>
-        </div>
-      </li>
-    `).join('');
-
-    return `
-      <li class="comment ${isNew ? 'comment--new' : ''}" data-id="${c.id}">
-        <div class="comment__row">
-          <div class="comment__avatar">${initials(c.name)}</div>
-          <div class="comment__body">
-            <div class="comment__meta">
-              <span class="comment__name">${escapeHtml(c.name)}</span>
-              <span class="comment__time">${escapeHtml(c.time)}</span>
-            </div>
-            <p class="comment__text">${escapeHtml(c.text)}</p>
-            <button type="button" class="comment__reply-btn" data-reply-for="${c.id}">Reply</button>
-            <form class="reply-form" data-reply-form="${c.id}">
-              <input type="text" placeholder="Write a reply…" aria-label="Reply to ${escapeHtml(c.name)}">
-              <button type="submit">Send</button>
-            </form>
-          </div>
-        </div>
-        ${c.replies.length ? `<ul class="replies">${repliesHtml}</ul>` : ''}
-      </li>
-    `;
-  }
-
-  function escapeHtml(str) {
-    const div = document.createElement('div');
-    div.textContent = str;
-    return div.innerHTML;
-  }
-
-  function render(newestId) {
-    listEl.innerHTML = comments.map(c => renderComment(c, c.id === newestId)).join('');
-    countEl.textContent = `${totalCount()} comment${totalCount() === 1 ? '' : 's'}`;
-    attachListListeners();
-  }
-
-  function attachListListeners() {
-    listEl.querySelectorAll('[data-reply-for]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const form = listEl.querySelector(`[data-reply-form="${btn.dataset.replyFor}"]`);
-        form.classList.toggle('is-open');
-        if (form.classList.contains('is-open')) form.querySelector('input').focus();
-      });
-    });
-
-    listEl.querySelectorAll('[data-reply-form]').forEach(form => {
-      form.addEventListener('submit', e => {
-        e.preventDefault();
-        const input = form.querySelector('input');
-        const value = input.value.trim();
-        if (!value) return;
-
-        const parent = comments.find(c => c.id === Number(form.dataset.replyForm));
-        parent.replies.push({
-          id: nextId++,
-          name: "You",
-          time: "just now",
-          text: value
-        });
-        render();
-      });
-    });
-  }
-
-  formEl.addEventListener('submit', e => {
-    e.preventDefault();
-    const name = nameInput.value.trim();
-    const text = textInput.value.trim();
-
-    if (!name || !text) {
-      errorEl.classList.add('is-visible');
-      return;
-    }
-    errorEl.classList.remove('is-visible');
-
-    const newComment = {
-      id: nextId++,
+  try {
+    await addDoc(wishesRef, {
       name,
-      time: "just now",
-      text,
-      replies: []
-    };
-    comments.unshift(newComment);
-    render(newComment.id);
+      comment,
+      status: "pending",
+      createdAt: serverTimestamp()
+    });
+    // Show a thank-you note instead of the message itself
+    listEl.insertAdjacentHTML("afterbegin", `
+      <li class="wellwish-item wellwish-pending">
+        ✏️ Thanks ${escapeHtml(name)}! Your message is awaiting approval and will appear here shortly.
+      </li>
+    `);
+    form.reset();
+  } catch (error) {
+    console.error("Firebase error:", error.message);
+  }
+});
 
-    nameInput.value = '';
-    textInput.value = '';
-  });
+// Only show approved messages on the public page
+const approvedQuery = query(
+  wishesRef,
+  where("status", "==", "approved"),
+  orderBy("createdAt", "desc")
+);
 
-//   render();
+onSnapshot(approvedQuery, (snapshot) => {
+  const wishes = snapshot.docs.map(doc => doc.data());
+
+  countEl.textContent = wishes.length === 0
+    ? "Messages are on their way — check back soon!"
+    : `${wishes.length} message${wishes.length === 1 ? "" : "s"}`;
+
+  // Remove any pending thank-you notes before re-rendering approved list
+  const pendingNotes = listEl.querySelectorAll(".wellwish-pending");
+  pendingNotes.forEach(n => n.remove());
+
+  const approvedHtml = wishes.map(w => `
+    <li class="wellwish-item">
+      <span class="wellwish-name">${escapeHtml(w.name)}</span>
+      <span class="wellwish-time">${formatTime(w.createdAt)}</span>
+      <p class="wellwish-text">${escapeHtml(w.comment)}</p>
+    </li>
+  `).join("");
+
+  // Insert approved items after any pending thank-you notes
+  const pendingNote = listEl.querySelector(".wellwish-pending");
+  if (pendingNote) {
+    pendingNote.insertAdjacentHTML("afterend", approvedHtml);
+  } else {
+    listEl.innerHTML = approvedHtml;
+  }
+});
+
+function escapeHtml(str) {
+  const div = document.createElement("div");
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function formatTime(timestamp) {
+  if (!timestamp) return "just now";
+  return timestamp.toDate().toLocaleDateString(undefined, { month: "short", day: "numeric" });
+}
