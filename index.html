@@ -6,47 +6,56 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Send Sam Your Well Wishes</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Google+Sans:ital,opsz,wght@0,17..18,400..700;1,17..18,400..700&family=Oswald:wght@200..700&family=Playpen+Sans:wght@100..800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
+  <div class="lavender">
+    <div class="container">
 
     <div class="lining">
-      <h1>Send Sam your well wishes!</h1>
+      <h1>Send Sam your </br> well wishes!</h1>
     </div>
 
     <section class="main">
       <form id="wellWishForm" novalidate>
-        <label for="wellWishName">Name</label><br><br>
-        <input type="text" id="wellWishName" name="name" size="40"><br><br>
-        <label for="wellWishComment">Leave an uplifting message for Samir</label><br><br>
-        <textarea id="wellWishComment" name="comment" cols="42" rows="5"></textarea><br><br>
+        <label for="wellWishName" class="googlesans" class="name">Name:</label><br><br>
+        <input type="text" id="wellWishName" class="googlesans" name="name" size="40"><br><br>
+        <label for="wellWishComment" class="googlesans">Leave an uplifting message for Samir/Jean Van Claude Sam:</label>
+        <textarea id="wellWishComment" name="comment" cols="42" rows="5"></textarea>
         <p class="wellwish-error" id="wellWishError">Please add your name and a message before sending.</p>
         <button class="submit" type="submit">Send well wishes</button>
         <button class="reset" type="reset">Clear</button>
       </form>
     </section>
+  </div>
 
     <section class="wellwishes" aria-label="Messages for Sam">
       <!-- <h3>Messages from the community</h3> -->
-      <p class="wellwishes-count" id="wellWishCount">Loading messages…</p>
+      <!-- <p class="wellwishes-count" id="wellWishCount">Loading messages…</p> -->
       <ul class="wellwish-list" id="wellWishList"></ul>
     </section>
 
     <section class="faq">
-      <h3>FAQ</h3>
-      <h4>Who is Samir and what has happened to him?</h4>
+      <h3 class="oswald">FAQ</h3>
+      <h4 class="oswald"> Who is Samir and what has happened to him?</h4>
       <p>Sam aka devmansam is a member of the software engineering cohort 100devs. He is known for his kindness, his skill, his sense of humor, his eagerness to help others, his iconic hair and sunglasses, and his fondness for pizza. He has built multiple projects dedicated to helping freelancing devs find prospective clients.
       He was initially diagnosed with hepatitis in April; while the doctors were replacing the stents in his bile and pancreatic ducts to treat it they found a lesion on his pancreas that quickly evolved into stage 3 pancreatic cancer.
-      On June 15th he underwent surgery to remove the head of his pancreas, his gallbladder, part of his bile duct, and his duodenum (the beginning part of the small intestine). On June 22nd he came home from the hospital, and within the next few weeks he will begin six months of aggressive chemo.</p>
+      On June 15th he underwent surgery to remove the head of his pancreas, his gallbladder, part of his bile duct, and his duodenum (the beginning part of the small intestine); a few weeks ago he began what will be six months of aggressive chemo.</p>
 
-      <h4>What else can we do to help out Sam?</h4>
+      <h4 class="oswald">What else can we do to help out Sam?</h4>
       <p>Reaching out to him directly and wishing him well is always encouraged. Treat him like a friend, the regular guy he is; he just happens to be going through a difficult time.
       Be kind, be chill, don't be weird. Sam values each message that is sent and has openly said he needs his friends, his community now. A GoFundMe may be opened for him in the next few months, and if so will be shared on Discord, bsky, and here.</p>
 
-      <h4>How can I reach Sam?</h4>
+      <h4 class="oswald">How can I reach Sam?</h4>
       <p>Sam can be found on bsky <a href="https://bsky.app/profile/devmansam.net">here</a> and his Discord handle is @sam412yihhh.</p>
+
+       <h4 class="oswald"> Why isn't my message here? I submitted it.</h4>
+        <p> The comments are being moderated just in case there's anything submitted by people whose hearts aren't in the right place.</p>
+        
+        <h4>There is something wrong with the site, how can I tell the person who made it?</h4>
+        <p> Hi, you can reach me (Ashton) at either my <a href="https://bsky.app/profile/sirashtondev.bsky.social">bsky</a> or through my Discord, @sirashtondev. </p> 
     </section>
 
   </div>

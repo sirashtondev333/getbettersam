@@ -17,8 +17,9 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  background-image: url(/Images/cherryblossom);
-  background-color: var(--paper);
+  /* background-image: url(/Images/snails.jpg); */
+  /* background-color: var(--paper); */
+  background-color: aliceblue;
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--ink);
@@ -26,42 +27,102 @@ body {
   padding: 48px 20px;
 }
 
-.container {
-  width: 100%;
-  max-width: 720px;
+.lavender {
+  background-image: url(/Images/lavender.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
-h1 { font-size: 4.7rem; }
+.container {
+  width: 100%;
+  max-width: 800px;
+    margin: 0 auto;
+}
 
-h3, h4 { font-family: 'Fraunces', serif; }
+p {
+  font-family: 'Google Sans';
+}
 
-textarea { scroll-behavior: auto; }
+.googlesans {
+  font-family: 'Google Sans';
+  font-weight: 500;
+  font-size: 1.5rem;
+  color: aliceblue;
+}
 
-label { display: flex; flex-direction: row; }
+h1 { 
+  font-size: 4.7rem; 
+}
 
-a { font-weight: bolder; }
+h3 {
+  font-size: 2rem;
+}
 
-/* Header lining */
+h4 {
+  font-size: 1.3rem;
+}
+
+.oswald { 
+  font-family: 'Oswald', serif; 
+}
+
+textarea { 
+  scroll-behavior: auto; 
+  width: 35rem;
+}
+
+label { 
+  display: flex; flex-direction: row; 
+}
+
+a { 
+  font-weight: bolder; 
+}
+
+
+h1 {
+    padding: 0px 40px;
+    text-align: center;
+    font-family: 'Playpen Sans';
+}
+
 .lining {
   width: 100%;
-  margin: 32px auto 32px;
-  border: 2px solid rgb(186, 186, 253); 
-  display: flex;
+  margin: 32px auto 64px;
+  /* border: 2px solid rgb(186, 186, 253);  */
+    /* padding: 0px 40px; */
+  /* display: flex; */
   justify-content: center;
-  background-color: aliceblue;
+  color: aliceblue;
+  text-align: center;
 }
 
 /* Main form */
-.main { display: flex; justify-content: center; }
+/* .main {
+   display: flex; justify-content: center;
+   } */
+
+   .main label {
+  display: block;
+  margin-bottom: 6px;
+  margin-top: 16px;
+}
+
+.main input,
+.main textarea {
+  display: block;
+  margin-bottom: 4px;
+}
 
 .submit, .reset {
-  background-color: black;
-  color: white;
-  border: 2px solid white;
+  background-color: rgb(51, 7, 92);
+  color: aliceblue;
+  border: 1px solid white;
   font-size: large;
   padding: 8px 20px;
   cursor: pointer;
   margin-right: 8px;
+  align-items: center;
 }
 
 .submit:hover { background-color: var(--moss); }
@@ -76,33 +137,73 @@ a { font-weight: bolder; }
 }
 
 /* Messages feed */
-.wellwishes {
-  margin: 36px auto;
-  max-width: 640px;
-  text-align: left;
-}
+
 
 .wellwishes h3 { margin-bottom: 4px; }
 
 .wellwishes-count {
+  color: #ECE7DA;
+  font-size: 0.85rem;
+  color: var(--muted); 
+  margin: 0 0 16px;
+}
+
+.wellwishes {
+  width: 100%;
+  margin: 36px 0;
+  text-align: left;
+}
+
+.wellwishes h3 {
+  text-align: center;
+  margin-bottom: 4px;
+}
+
+.wellwishes-count {
   font-size: 0.85rem;
   color: var(--muted);
-  margin: 0 0 16px;
+  margin: 0 0 20px;
+  text-align: center;
 }
 
 .wellwish-list {
   list-style: none;
   margin: 0;
   padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 24px;
+  width: 100%;
 }
 
 .wellwish-item {
-  padding: 14px 0;
-  border-bottom: 1px solid var(--rule);
+  padding: 8px 0;
   animation: fade-in 0.3s ease;
 }
 
-.wellwish-item:last-child { border-bottom: none; }
+.wellwish-name {
+  font-family: 'Fraunces', serif;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 4px;
+}
+
+.wellwish-time {
+  font-size: 0.75rem;
+  color: var(--muted);
+  display: block;
+  margin-bottom: 6px;
+}
+
+.wellwish-text {
+  margin: 0;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.wellwish-item:last-child { 
+  border-bottom: none; 
+}
 
 @keyframes fade-in {
   from { opacity: 0; transform: translateY(4px); }
@@ -127,9 +228,27 @@ a { font-weight: bolder; }
 
 /* FAQ */
 .faq {
+  background-color: aliceblue;
   margin-left: 10%;
   margin-right: 10%;
-  text-align: left;
+  padding: 0 10%;
+  padding-bottom: 1rem;
+  color: rgb(51, 7, 92);
+  /* text-align: left; */
+}
+
+.faq h3 {
+  margin-bottom: 12px;
+}
+
+.faq h4 {
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+.faq p {
+  margin-top: 0;
+  margin-bottom: 0;
 }
 
 @media (max-width: 480px) {
