@@ -8,6 +8,8 @@
   --muted:     #8A8678;
 }
 
+/*   color: rgb(7, 92, 33); */
+
 * { box-sizing: border-box; }
 
 body {
@@ -17,21 +19,29 @@ body {
   display: flex;
   align-items: center;
   flex-direction: column;
-  /* background-image: url(/Images/snails.jpg); */
+  background-image: url(/Images/paper); 
   /* background-color: var(--paper); */
   background-color: aliceblue;
   background-repeat: no-repeat;
-  background-size: cover;
+  background-size: cover; /*
   color: var(--ink);
   font-family: 'Inter', system-ui, sans-serif;
-  padding: 48px 20px;
+  padding: 48px 20px; */
 }
-
 .lavender {
-  background-image: url(/Images/lavender.jpg);
+  background-image: url(/Images/flowerfield.jpg);
   background-repeat: no-repeat;
   background-size: cover;
+  min-height: 100vh;
+  width: 100%;
 }
+/*
+.lavender {
+  background-image: url(/Images/flowerfield.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  min-height: 100vh;
+} */
 
 .container {
   width: 100%;
@@ -63,7 +73,7 @@ h4 {
 }
 
 .oswald { 
-  font-family: 'Oswald', serif; 
+    font-family: 'Google Sans';
 }
 
 textarea { 
@@ -228,12 +238,12 @@ h1 {
 
 /* FAQ */
 .faq {
-  background-color: aliceblue;
+  background-color: white; 
   margin-left: 10%;
   margin-right: 10%;
   padding: 0 10%;
   padding-bottom: 1rem;
-  color: rgb(51, 7, 92);
+  color: rgb(7, 92, 33);
   /* text-align: left; */
 }
 

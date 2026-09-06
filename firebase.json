@@ -1,0 +1,32 @@
+
+{
+  "hosting": {
+    "public": ".",
+    "ignore": [
+      "firebase.json",
+      "**/*.zip",
+      "**/*.rar",
+      "**/*.ttf",
+      ".git/**",
+      "Oswald/**"
+    ]
+  }
+}
+
+// {
+//   "hosting": {
+//     "public": ".",
+//     "ignore": [
+//       "firebase.json",
+//       "**/.*",
+//       "**/node_modules/**",
+//       "**/*.zip",
+//       ".git/**"
+//       "**/*.rar",
+//       "**/*.ttf",
+//       "filesclaude/**",
+//       "modfilesclaude/**",
+//       "Oswald/**"
+//     ]
+//   }
+// }
