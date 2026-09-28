@@ -22,18 +22,19 @@
       <form id="wellWishForm" novalidate>
         <label for="wellWishName" class="googlesans" class="name">Name:</label><br><br>
         <input type="text" id="wellWishName" class="googlesans" name="name" size="40"><br><br>
-        <label for="wellWishComment" class="googlesans">Leave an uplifting message for Samir/Jean Van Claude Sam:</label>
+        <label for="wellWishComment" class="googlesans">Leave an uplifting message for <br>
+          Samir/Jean Van Claude Sam:</label>
         <textarea id="wellWishComment" name="comment" cols="42" rows="5"></textarea>
         <p class="wellwish-error" id="wellWishError">Please add your name and a message before sending.</p>
         <button class="submit" type="submit">Send well wishes</button>
         <button class="reset" type="reset">Clear</button>
       </form>
     </section>
-  </div>
+  <!-- </div> -->
 
     <section class="wellwishes" aria-label="Messages for Sam">
-      <!-- <h3>Messages from the community</h3> -->
-      <!-- <p class="wellwishes-count" id="wellWishCount">Loading messages…</p> -->
+      <h3 class="googlesans">Messages from the community</h3>
+      <p class="wellwishes-count" id="wellWishCount">Loading messages…</p>
       <ul class="wellwish-list" id="wellWishList"></ul>
     </section>
 

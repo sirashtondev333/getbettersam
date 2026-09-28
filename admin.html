@@ -49,9 +49,7 @@
       margin-bottom: 12px;
     }
 
-    #loginScreen input:focus-visible {
-      outline: 2px solid var(--moss);
-    }
+    #loginScreen input:focus-visible { outline: 2px solid var(--moss); }
 
     #loginScreen button {
       width: 100%;
@@ -81,18 +79,13 @@
     .admin-header {
       display: flex;
       justify-content: space-between;
-      align-items: baseline;
-      margin-bottom: 28px;
+      align-items: center;
+      margin-bottom: 24px;
     }
 
     .admin-header h2 {
       font-family: 'Fraunces', serif;
       font-size: 1.6rem;
-    }
-
-    #pendingCount {
-      font-size: 0.85rem;
-      color: var(--muted);
     }
 
     #logoutBtn {
@@ -108,6 +101,38 @@
 
     #logoutBtn:hover { color: var(--ink); border-color: var(--ink); }
 
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 4px;
+      border-bottom: 2px solid var(--rule);
+      margin-bottom: 24px;
+    }
+
+    .tab-btn {
+      font-family: inherit;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: none;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      color: var(--muted);
+      border-bottom: 2px solid transparent;
+      margin-bottom: -2px;
+    }
+
+    .tab-btn.active {
+      color: var(--moss-dark);
+      border-bottom-color: var(--moss);
+    }
+
+    .tab-btn:hover { color: var(--ink); }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; }
+
+    /* Message cards */
     .message-card {
       background: white;
       border: 1px solid var(--rule);
@@ -134,22 +159,13 @@
       font-weight: 600;
     }
 
-    .message-card__time {
-      font-size: 0.75rem;
-      color: var(--muted);
-    }
+    .message-card__time { font-size: 0.75rem; color: var(--muted); }
 
-    .message-card__text {
-      line-height: 1.5;
-      margin-bottom: 14px;
-    }
+    .message-card__text { line-height: 1.5; margin-bottom: 14px; }
 
-    .message-card__actions {
-      display: flex;
-      gap: 10px;
-    }
+    .message-card__actions { display: flex; gap: 10px; }
 
-    .btn-approve, .btn-reject {
+    .btn-approve, .btn-reject, .btn-delete {
       font-family: inherit;
       font-size: 0.85rem;
       font-weight: 600;
@@ -159,19 +175,23 @@
       cursor: pointer;
     }
 
-    .btn-approve {
-      background: var(--moss);
-      color: white;
-    }
-
+    .btn-approve { background: var(--moss); color: white; }
     .btn-approve:hover { background: var(--moss-dark); }
 
-    .btn-reject {
-      background: #f5e8e7;
-      color: var(--danger);
-    }
-
+    .btn-reject { background: #f5e8e7; color: var(--danger); }
     .btn-reject:hover { background: #edcfcc; }
+
+    .btn-delete { background: #f5e8e7; color: var(--danger); }
+    .btn-delete:hover { background: #edcfcc; }
+
+    .tab-count {
+      display: inline-block;
+      background: var(--rule);
+      border-radius: 10px;
+      font-size: 0.75rem;
+      padding: 1px 7px;
+      margin-left: 5px;
+    }
 
     .empty-state {
       text-align: center;
@@ -193,16 +213,30 @@
     <p id="loginError">Incorrect password. Try again.</p>
   </div>
 
-  <!-- Admin panel (hidden until logged in) -->
+  <!-- Admin panel -->
   <div id="adminPanel">
     <div class="admin-header">
-      <div>
-        <h2>Message Moderation</h2>
-        <p id="pendingCount">Loading…</p>
-      </div>
+      <h2>Message Moderation</h2>
       <button id="logoutBtn">Log out</button>
     </div>
-    <div id="messageList"></div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="pending">
+        Pending <span class="tab-count" id="pendingCount">0</span>
+      </button>
+      <button class="tab-btn" data-tab="approved">
+        Approved <span class="tab-count" id="approvedCount">0</span>
+      </button>
+    </div>
+
+    <div class="tab-panel active" id="tab-pending">
+      <div id="pendingList"></div>
+    </div>
+
+    <div class="tab-panel" id="tab-approved">
+      <div id="approvedList"></div>
+    </div>
   </div>
 
 <script type="module">
@@ -212,7 +246,7 @@
     orderBy, where, updateDoc, deleteDoc, doc
   } from "https://www.gstatic.com/firebasejs/12.15.0/firebase-firestore.js";
 
-
+  // ---- CHANGE THIS to your chosen admin password ----
   const ADMIN_PASSWORD = "Leonnoel0918";
   // ---------------------------------------------------
 
@@ -229,21 +263,20 @@
   const db = getFirestore(app);
   const wishesRef = collection(db, "wellWishes");
 
-  // ---- Login ----
   const loginScreen = document.getElementById("loginScreen");
   const adminPanel = document.getElementById("adminPanel");
   const passwordInput = document.getElementById("passwordInput");
   const loginBtn = document.getElementById("loginBtn");
   const loginError = document.getElementById("loginError");
   const logoutBtn = document.getElementById("logoutBtn");
-  const messageList = document.getElementById("messageList");
-  const pendingCount = document.getElementById("pendingCount");
 
+  // ---- Login ----
   function login() {
     if (passwordInput.value === ADMIN_PASSWORD) {
       loginScreen.style.display = "none";
       adminPanel.style.display = "block";
-      loadMessages();
+      loadPending();
+      loadApproved();
     } else {
       loginError.style.display = "block";
       passwordInput.value = "";
@@ -260,33 +293,33 @@
     passwordInput.value = "";
   });
 
-  // ---- Load pending messages ----
-  function loadMessages() {
-    const pendingQuery = query(
-      wishesRef,
-      where("status", "==", "pending"),
-      orderBy("createdAt", "asc")
-    );
+  // ---- Tabs ----
+  document.querySelectorAll(".tab-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-panel").forEach(p => p.classList.remove("active"));
+      btn.classList.add("active");
+      document.getElementById(`tab-${btn.dataset.tab}`).classList.add("active");
+    });
+  });
 
-    onSnapshot(pendingQuery, (snapshot) => {
+  // ---- Pending messages ----
+  function loadPending() {
+    const q = query(wishesRef, where("status", "==", "pending"), orderBy("createdAt", "asc"));
+    onSnapshot(q, (snapshot) => {
       const count = snapshot.docs.length;
-      pendingCount.textContent = count === 0
-        ? "No messages waiting"
-        : `${count} message${count === 1 ? "" : "s"} waiting for review`;
+      document.getElementById("pendingCount").textContent = count;
+      const list = document.getElementById("pendingList");
 
       if (count === 0) {
-        messageList.innerHTML = `
-          <div class="empty-state">
-            <span>✅</span>
-            All caught up! No pending messages right now.
-          </div>`;
+        list.innerHTML = `<div class="empty-state"><span>✅</span>All caught up! No pending messages.</div>`;
         return;
       }
 
-      messageList.innerHTML = snapshot.docs.map(d => {
+      list.innerHTML = snapshot.docs.map(d => {
         const w = d.data();
         return `
-          <div class="message-card" data-id="${d.id}">
+          <div class="message-card">
             <div class="message-card__meta">
               <span class="message-card__name">${escapeHtml(w.name)}</span>
               <span class="message-card__time">${formatTime(w.createdAt)}</span>
@@ -294,22 +327,58 @@
             <p class="message-card__text">${escapeHtml(w.comment)}</p>
             <div class="message-card__actions">
               <button class="btn-approve" data-id="${d.id}">✓ Approve</button>
-              <button class="btn-reject"  data-id="${d.id}">✕ Delete</button>
+              <button class="btn-reject" data-id="${d.id}">✕ Delete</button>
             </div>
           </div>`;
       }).join("");
 
-      // Approve
-      messageList.querySelectorAll(".btn-approve").forEach(btn => {
+      list.querySelectorAll(".btn-approve").forEach(btn => {
         btn.addEventListener("click", async () => {
           await updateDoc(doc(db, "wellWishes", btn.dataset.id), { status: "approved" });
         });
       });
 
-      // Reject (delete entirely)
-      messageList.querySelectorAll(".btn-reject").forEach(btn => {
+      list.querySelectorAll(".btn-reject").forEach(btn => {
         btn.addEventListener("click", async () => {
           if (confirm("Delete this message permanently?")) {
+            await deleteDoc(doc(db, "wellWishes", btn.dataset.id));
+          }
+        });
+      });
+    });
+  }
+
+  // ---- Approved messages ----
+  function loadApproved() {
+    const q = query(wishesRef, where("status", "==", "approved"), orderBy("createdAt", "desc"));
+    onSnapshot(q, (snapshot) => {
+      const count = snapshot.docs.length;
+      document.getElementById("approvedCount").textContent = count;
+      const list = document.getElementById("approvedList");
+
+      if (count === 0) {
+        list.innerHTML = `<div class="empty-state"><span>💬</span>No approved messages yet.</div>`;
+        return;
+      }
+
+      list.innerHTML = snapshot.docs.map(d => {
+        const w = d.data();
+        return `
+          <div class="message-card">
+            <div class="message-card__meta">
+              <span class="message-card__name">${escapeHtml(w.name)}</span>
+              <span class="message-card__time">${formatTime(w.createdAt)}</span>
+            </div>
+            <p class="message-card__text">${escapeHtml(w.comment)}</p>
+            <div class="message-card__actions">
+              <button class="btn-delete" data-id="${d.id}">✕ Remove from site</button>
+            </div>
+          </div>`;
+      }).join("");
+
+      list.querySelectorAll(".btn-delete").forEach(btn => {
+        btn.addEventListener("click", async () => {
+          if (confirm("Remove this message from the site permanently?")) {
             await deleteDoc(doc(db, "wellWishes", btn.dataset.id));
           }
         });
