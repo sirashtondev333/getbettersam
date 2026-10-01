@@ -57,12 +57,11 @@ p {
 .googlesans {
   font-family: 'Google Sans';
   font-weight: 700;
-  font-size: 1.5rem;
-  color: black;            
+  font-size: 1.5rem;       
 }
 
 h1 { 
-  font-size: 4.7rem; 
+  font-size: 5.5rem; 
 }
 
 h3 {
@@ -75,6 +74,11 @@ h4 {
 
 .oswald { 
     font-family: 'Google Sans';
+}
+
+.outline {
+  color: white;
+  text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
 }
 
 textarea { 
@@ -153,13 +157,19 @@ h1 {
 
 .snail-img {
   position: absolute;
-  right: -2.2rem;
+  right: -2.5rem;
   bottom: 0;
+  height: 8.2rem;
   width: auto;
 }
 
-.wellWishName, .wellWishComment {
-  text-shadow: 3px 3px 6px black;
+.wellWishName,
+.wellWishComment {  
+  text-shadow: 7px 7px 14px black;
+}
+
+.wellWishText {
+
 }
 
 .submit, .reset {
@@ -254,13 +264,12 @@ h1 {
 }
 
 .wellwish-name {
-  font-family: 'Fraunces', serif;
-  font-weight: 600;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 500;
   font-size: 1.2rem;
-
   display: block;
   margin-bottom: 4px;
-    color: rgb(40, 37, 71);
+  color: rgb(40, 37, 71);
 }
 
 .wellwish-time {
@@ -268,13 +277,17 @@ h1 {
   color: var(--muted);
   display: block;
   margin-bottom: 6px;
+  margin-left: 8px;
 }
 
 .wellwish-text {
-  margin: 0;
+  margin: 4px 0 0;
   line-height: 1.5;
   font-size: 0.95rem;
+  font-family: 'Courier New', Courier, monospace;
+  font-weight: 500;
   color: rgb(40, 37, 71);
+  text-shadow: 1px .1px .1px rgb(40, 37, 71);
 }
 
 .wellwish-item:last-child { 
@@ -286,21 +299,6 @@ h1 {
   to   { opacity: 1; transform: translateY(0); }
 }
 
-.wellwish-name {
-  font-family:'Courier New', Courier, monospace;
-  font-weight: 600;
-}
-
-.wellwish-time {
-  font-size: 0.75rem;
-  color: var(--muted);
-  margin-left: 8px;
-}
-
-.wellwish-text {
-  margin: 4px 0 0;
-  line-height: 1.5;
-}
 
 /* FAQ */
 .faq {
@@ -357,6 +355,16 @@ details[open] summary::after {
 
 details p {
   margin: 8px 0 12px;
+}
+
+.center-summary {
+  justify-content: center;
+  position: relative;
+}
+
+.center-summary::after {
+  position: absolute;
+  right: 0;
 }
 
 @media (max-width: 480px) {
